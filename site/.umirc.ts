@@ -31,7 +31,7 @@ export default defineConfig({
       // https://github.com/emotion-js/emotion/tree/master/packages/babel-preset-css-prop#options
       '@emotion/babel-preset-css-prop',
       {
-        autoLabel: true,
+        autoLabel: 'always',
       },
     ],
   ],

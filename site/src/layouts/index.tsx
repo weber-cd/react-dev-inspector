@@ -1,5 +1,5 @@
 import React from 'react'
-import { Global } from '@emotion/core'
+import { Global } from '@emotion/react'
 import { Inspector } from 'react-dev-inspector'
 import { Title } from 'src/components/Title'
 import { Slogan } from 'src/components/Slogan'

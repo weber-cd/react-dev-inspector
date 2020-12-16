@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import type { Fiber } from 'react-reconciler'
+import React, { Component, MutableRefObject } from 'react'
+// import type { Fiber } from 'react-reconciler'
 import hotkeys from 'hotkeys-js'
 import { setupHighlighter } from './utils/hightlight'
 import {
@@ -15,11 +15,15 @@ export interface InspectParams {
   /** hover / click event target dom element */
   element: HTMLElement,
   /** nearest named react component fiber for dom element */
-  fiber?: Fiber,
+  // fiber?: Fiber,
   /** source file line / column / path info for react component */
   codeInfo?: CodeInfo,
   /** react component name for dom element */
   name?: string,
+}
+
+export interface InspectStates {
+  isInspect: boolean,
 }
 
 export type ElementHandler = (params: InspectParams) => void
@@ -41,100 +45,101 @@ export interface InspectorProps {
   disableLaunchEditor?: boolean,
 }
 
-export const Inspector: React.FC<InspectorProps> = (props) => {
-  const {
-    keys,
-    onHoverElement,
-    onClickElement,
-    disableLaunchEditor,
-    children,
-  } = props
-
-  const hotkey = (keys ?? defaultHotKeys).join('+')
-
-  const [isInspect, setIsInspect] = useState(false)
-  const overlayRef = useRef<Overlay>()
-
-  const handleHoverElement = (element: HTMLElement) => {
-    const overlay = overlayRef.current
+export class Inspector extends Component<InspectorProps, InspectStates> {
+  overlayRef: MutableRefObject<Overlay | undefined> = {
+    current: new Overlay()
+  };
+  hotkey = defaultHotKeys.join('+')
+  constructor(props){
+    super(props)
+    this.state = {
+      isInspect: false
+    }
+    const { keys } = props
+    this.hotkey = (keys ?? defaultHotKeys).join('+')
+  }
+  handleHoverElement = (element: HTMLElement) => {
+    const { onHoverElement } = this.props
+    const overlay = this.overlayRef?.current
 
     const codeInfo = getElementCodeInfo(element)
     const relativePath = codeInfo?.relativePath
 
-    const { fiber, name, title } = getElementInspect(element, relativePath)
+    const { name, title } = getElementInspect(element, relativePath)
 
     overlay?.inspect?.([element], title, relativePath)
 
     onHoverElement?.({
       element,
-      fiber,
+      // fiber,
       codeInfo,
       name,
     })
   }
-
-  const handleClickElement = (element: HTMLElement) => {
-    const overlay = overlayRef.current
+  handleClickElement = (element: HTMLElement) => {
+    const { onClickElement, disableLaunchEditor } = this.props
+    const overlay = this.overlayRef?.current
     overlay?.remove?.()
-    overlayRef.current = undefined
-    setIsInspect(false)
+    // this.overlayRef.current = undefined
+    this.setState({
+      isInspect: false
+    })
 
     const codeInfo = getElementCodeInfo(element)
     const relativePath = codeInfo?.relativePath
 
-    const { fiber, name } = getElementInspect(element, relativePath)
+    const { name } = getElementInspect(element, relativePath)
 
     if (!disableLaunchEditor) gotoEditor(codeInfo)
     onClickElement?.({
       element,
-      fiber,
+      // fiber,
       codeInfo,
       name,
     })
   }
-
-  const startInspect = () => {
+  startInspect = () => {
     const overlay = new Overlay()
 
     const stopCallback = setupHighlighter({
-      onPointerOver: handleHoverElement,
-      onClick: handleClickElement,
+      onPointerOver: this.handleHoverElement,
+      onClick: this.handleClickElement,
     })
 
     overlay.setRemoveCallback(stopCallback)
 
-    overlayRef.current = overlay
-    setIsInspect(true)
+    this.overlayRef.current = overlay
+    // setIsInspect(true)
+    this.setState({
+      isInspect: true
+    })
   }
 
-  const stopInspect = () => {
-    overlayRef.current?.remove()
-    setIsInspect(false)
+  stopInspect = () => {
+    this.overlayRef.current?.remove()
+    this.setState({
+      isInspect: false
+    })
   }
 
-  const handleInspectKey = () => (
-    isInspect
-      ? stopInspect()
-      : startInspect()
+  handleInspectKey = () => (
+    this.state.isInspect
+      ? this.stopInspect()
+      : this.startInspect()
   )
 
-  useEffect(() => {
+  componentDidMount(){
     const handleHotKeys = (event, handler) => {
-      if (handler.key === hotkey) {
-        handleInspectKey()
+      if (handler.key === this.hotkey) {
+        this.handleInspectKey()
       }
     }
 
-    hotkeys(hotkey, handleHotKeys)
-    window.__REACT_DEV_INSPECTOR_TOGGLE__ = handleInspectKey
-
-    return () => {
-      hotkeys.unbind(hotkey, handleHotKeys)
-      delete window.__REACT_DEV_INSPECTOR_TOGGLE__
-    }
-  }, [hotkey, handleInspectKey])
-
-  return (
-    <>{children}</>
-  )
+    hotkeys(this.hotkey, handleHotKeys)
+    window.__REACT_DEV_INSPECTOR_TOGGLE__ = this.handleInspectKey
+  }
+  render(){
+    const { children } = this.props
+    return <>{children}</>
+  }
 }
