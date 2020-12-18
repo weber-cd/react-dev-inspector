@@ -7,8 +7,8 @@ export const Title: React.SFC = (props) => {
   } = props
 
   return (
-    <div>
+    <h3>
       {children}
-    </div>
+    </h3>
   )
 }

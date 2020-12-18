@@ -76,22 +76,21 @@ export const getElementFiber = (element: HTMLElement): Fiber | null => {
 export const debugToolNameRegex = /^(.*?\.Provider|.*?\.Consumer|Anonymous|Trigger|Tooltip|_.*|[a-z].*)$/
 
 export const getSuitableFiber = (baseFiber?: Fiber): Fiber | null => {
-  let fiber = baseFiber
-
-  while (fiber) {
-    const name = fiber.type?.displayName ?? fiber.type?.name
+  let suitableFiber = null;
+  let compFiber = baseFiber;
+  while (compFiber) {
+    const name = compFiber._currentElement?.type
     if (name && !debugToolNameRegex.test(name)) {
-      return fiber
+      suitableFiber = compFiber._currentElement
+      break;
     }
-
-    fiber = fiber.return
+    compFiber = compFiber?._currentElement?._owner;
   }
-
-  return null
+  return suitableFiber
 }
 
 export const getFiberName = (fiber?: Fiber): string | undefined => {
-  const fiberType = getSuitableFiber(fiber)?.type
+  const fiberType = fiber?.type
   let displayName: string | undefined
 
   // The displayName property is not guaranteed to be a string.

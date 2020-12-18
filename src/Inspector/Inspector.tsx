@@ -1,4 +1,4 @@
-import React, { Component, MutableRefObject } from 'react'
+import React, { Component, Ref } from 'react'
 // import type { Fiber } from 'react-reconciler'
 import hotkeys from 'hotkeys-js'
 import { setupHighlighter } from './utils/hightlight'
@@ -46,7 +46,7 @@ export interface InspectorProps {
 }
 
 export class Inspector extends Component<InspectorProps, InspectStates> {
-  overlayRef: MutableRefObject<Overlay | undefined> = {
+  overlayRef = {
     current: new Overlay()
   };
   hotkey = defaultHotKeys.join('+')
@@ -64,9 +64,7 @@ export class Inspector extends Component<InspectorProps, InspectStates> {
 
     const codeInfo = getElementCodeInfo(element)
     const relativePath = codeInfo?.relativePath
-
     const { name, title } = getElementInspect(element, relativePath)
-
     overlay?.inspect?.([element], title, relativePath)
 
     onHoverElement?.({
