@@ -140,6 +140,6 @@ export class Inspector extends Component<InspectorProps, InspectStates> {
   }
   render(){
     const { children } = this.props
-    return <>{children}</>
+    return <div>{children}</div>
   }
 }

@@ -7,6 +7,7 @@
     "test": "jest",
     "clean": "rimraf build dist es lib plugins",
     "dev": "nodemon -w src -e ts,tsx -x 'npm run build && (cd site; npm run dev)'",
+    "examples": "webpack serve --watch --config ./webpack/dev.config.js",
     "build": "npm-run-all clean build:*",
     "build:src": "tsc -p es-build.json",
     "build:plugins": "tsc -p cjs-build.json"
@@ -45,27 +46,28 @@
     "hotkeys-js": "^3.8.1",
     "loader-utils": "^2.0.0",
     "query-string": "^6.13.2",
-    "react-dev-utils": "^10.2.1"
+    "react-dev-utils": "^10.2.1",
+    "react-dom": "^15.7.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "@babel/preset-typescript": "^7.12.7",
     "@babel/types": "^7.11.5",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
-    "@emotion/babel-preset-css-prop": "^11.0.0",
-    "@emotion/core": "^11.0.0",
-    "@emotion/react": "^11.1.2",
-    "@emotion/styled": "^11.0.0",
-    "@types/react": "^16.14.2",
+    "@types/react": "^15.7.0",
     "@types/webpack": "^4.41.25",
     "@types/webpack-dev-server": "^3.11.1",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
-    "@umijs/types": "^3.2.20",
+    "babel-loader": "^8.2.2",
     "eslint": "^7.9.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-typescript": "^0.14.0",
+    "html-webpack-plugin": "^4.5.0",
     "husky": "^4.3.0",
     "nodemon": "^2.0.6",
     "npm-run-all": "^4.1.5",
@@ -74,13 +76,14 @@
     "react-reconciler": "^0.25.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.0.2",
-    "umi": "^3.3.2",
     "webpack": "^4.44.1",
-    "webpack-chain": "^6.5.1"
+    "webpack-chain": "^6.5.1",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "peerDependencies": {
-    "@umijs/types": "^3.2.20",
     "react": "15.x.x",
+    "react-dom": "15.x.x",
     "webpack": "^4.44.1",
     "webpack-chain": "^6.5.1"
   }

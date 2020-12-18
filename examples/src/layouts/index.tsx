@@ -1,0 +1,47 @@
+import React from 'react'
+import { Inspector } from './../../../src/index'
+import { Title } from './../components/Title'
+import { Slogan } from './../components/Slogan'
+import { KeyPad, Keypress } from './../components/Keypress'
+const isDev = process.env.NODE_ENV === 'development'
+export const HomePage = () => {
+  return (
+    <Inspector
+      disableLaunchEditor={!isDev}
+      onClickElement={(inspect) => {
+        console.info(inspect)
+        if (isDev || !inspect.codeInfo) return
+
+        const {
+          relativePath,
+          lineNumber,
+        } = inspect.codeInfo
+
+        window.open(
+          `https://github.com/zthxxx/react-dev-inspector/blob/master/site/${relativePath}#L${lineNumber}`,
+        )
+      }}
+    >
+      <Title>
+        <span>React Dev Inspector</span>
+      </Title>
+
+      <Slogan>
+        <p>Inspect react components and click will jump to local IDE to view component code.</p>
+        <p><small>( for this prod online demo page, jump to GitHub file )</small></p>
+      </Slogan>
+
+      <KeyPad>
+        <Keypress><div> Ctrl ⌃ </div></Keypress>
+        +
+        <Keypress><div> Shift ⇧ </div></Keypress>
+        +
+        <Keypress><div> Command ⌘ </div></Keypress>
+        +
+        <Keypress><div> C </div></Keypress>
+      </KeyPad>
+    </Inspector>
+  )
+}
+
+export default HomePage

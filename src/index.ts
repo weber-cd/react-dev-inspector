@@ -1,1 +1,1 @@
-export * from './Inspector'
+export { Inspector } from './Inspector'
