@@ -136,59 +136,6 @@ webpackChainConfig = inspectorChainWebpack(webpackChainConfig, {
 
 
 
-### Usage with [Umi3](https://umijs.org/)
-
-Include **step 1** and **step 3**, also equivalent to `Usage with Webpack Chain`
-
-Example `.umirc.dev.ts`:
-
-```ts
-// https://umijs.org/config/
-import { defineConfig } from 'umi'
-
-export default defineConfig({
-  plugins: [
-    'react-dev-inspector/plugins/umi/react-inspector',
-  ],
-  inspectorConfig: {
-    // loader options type and docs see below
-    exclude: [],
-    babelPlugins: [],
-    babelOptions: {},
-  },
-})
-```
-
-### Usage with [Umi2](https://v2.umijs.org)
-
-Include **step 1** and **step 3**
-
-Example `.umirc.dev.js`:
-
-```js
-import { inspectorChainWebpack } from 'react-dev-inspector/plugins/webpack'
-
-export default {
-  // ...
-  chainWebpack(config) {
-    inspectorChainWebpack(config, {
-      // ... options
-    })
-    return config
-  },
- 
-  /**
-   * And you need to set `false` to `dll` in `umi-plugin-react`,
-   * becase these is a umi2 bug that `dll` cannot work with `devServer.before`
-   *
-   * https://github.com/umijs/umi/issues/2599
-   * https://github.com/umijs/umi/issues/2161
-   */
-}
-```
-
-
-
 ### Use in React
 
 Include **step-2**, react runtime
@@ -327,7 +274,7 @@ export REACT_EDITOR=vim
 
 ## Example Project Code
 
-code see: https://github.com/zthxxx/react-dev-inspector/tree/master/site
+code see: https://github.com/weber-cd/react-element-inspector/tree/master/examples
 
 project preview: https://react-dev-inspector.zthxxx.me
 
