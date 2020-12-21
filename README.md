@@ -15,6 +15,8 @@ dev-tool for inspect react components and jump to local IDE for component code.
 
 ## Preview
 
+Forked from https://github.com/zthxxx/react-dev-inspector， but supports react15
+
 Online demo: https://react-dev-inspector.zthxxx.me
 
 Screen record (gif 8M): 

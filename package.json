@@ -1,6 +1,6 @@
 {
-  "name": "react-dev-inspector",
-  "version": "1.1.1",
+  "name": "react-element-inspector",
+  "version": "1.0.0",
   "description": "dev-tool for inspect react components and jump to local IDE for component code.",
   "main": "es/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "build:src": "tsc -p es-build.json",
     "build:plugins": "tsc -p cjs-build.json"
   },
-  "repository": "zthxxx/react-dev-inspector",
+  "repository": "weber-cd/react-element-inspector",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -21,12 +21,9 @@
     "component",
     "inspector"
   ],
-  "author": "zthxxx",
+  "author": "weber-cd",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zthxxx/react-dev-inspector/issues"
-  },
-  "homepage": "https://github.com/zthxxx/react-dev-inspector#readme",
+  "homepage": "https://github.com/weber-cd/react-element-inspector/blob/master/README.md#readme",
   "files": [
     "README.md",
     ".npmrc",
